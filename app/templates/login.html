@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<!--
+	TXT by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>TXT by HTML5 UP</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="/static/assets/css/main.css" />
+</head>
+
+<body class="homepage is-preload">
+	<div id="page-wrapper">
+
+
+{% if 'username' not in session: %}
+    <h4>Log into your account</h4>
+     <form method='POST' action ='/login'>
+        Username:
+        <input type='text' name='username'
+        Password:
+        <input typ='text' name='password'
+        <input type='submit' value = 'Submit'
+      </form>
+     <p>No account? <a href='/scheduling'Sign up here!</p>
+      {% else: %}
+     <p>You are logged in as {{session['username']}}</p>
+     <a href='/logout'>Log out</a>
+     {% endif %}
+</body>
+
+</html>
+</div>
+</section>
+

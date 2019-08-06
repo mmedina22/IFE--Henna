@@ -13,7 +13,7 @@ from flask_pymongo import PyMongo
 # name of database
 app.config['MONGO_DBNAME'] = 'project'
 # URI of database
-app.config['MONGO_URI'] = 'mongodb+srv://username:<fTf3Opfruo3pz25x>@cluster0-s1y61.mongodb.net/test?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = 'mongodb+srv://username:fTf3Opfruo3pz25x@cluster0-s1y61.mongodb.net/project?retryWrites=true&w=majority'
 mongo = PyMongo(app)
 # INDEX
 @app.route('/')
@@ -35,8 +35,11 @@ def add():
     
    # return a message to the user
     
+@app.route('/products',methods=['GET','POST'])
+def products():
+   return render_template('signedin.html')
     
-@app.route('/signup and scheduling',methods=['GET','POST'])
+@app.route('/scheduling',methods=['GET','POST'])
 def signup_and_scheduling():
    if request.method =='POST':
       # take in the info they gave us, check if username is taken, if not, put in list of users on database
@@ -44,22 +47,22 @@ def signup_and_scheduling():
       existing_user = users.find_one({"username":request.form['username']})
       if existing_user is None:
          users.insert({"username": request.form['username'],'password':request.form['password']})
-         return "Username successful Jimmy"
+         return redirect(url_for('index'))
       else:
          return "Try again Jimmy"
    else:
-      return render_template('signup_and_scheduling.hmtl')
-      
+      return render_template('scheduling.html')
 
 
-@app.route('/login', methods=['POST'])
+
+@app.route('/login', methods=['POST','GET'])
 def login(): 
    users = mongo.db.users
    existing_user = users.find_one({"username":request.form['username']})
    if existing_user:
       if existing_user['password'] == request.form['password']:
          session['username'] =request.form['username']
-         return redirect(url_for('index'))
+         return redirect(url_for('/signedin'))
       else:
          return "Fake Jimmy alert"
    else:
@@ -70,4 +73,4 @@ def logout():
    session.clear()
    return redirect('/')
 
-      
+   
